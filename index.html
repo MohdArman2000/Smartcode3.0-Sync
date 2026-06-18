@@ -55,24 +55,22 @@
 </script>
 	  <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<meta http-equiv="Accept-CH" content="Sec-CH-UA, Sec-CH-UA-Platform, Sec-CH-UA-Mobile, Sec-CH-UA-Full-Version, Sec-CH-UA-Model, Sec-CH-UA-Arch, Sec-CH-UA-Bitness, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List">
-	<script>
+<script>
 (function () {
-  // Read account id from URL
   const params = new URLSearchParams(window.location.search);
-  const accountId = params.get('id');
 
-  // Prevent loading if no id is present
+  const accountId = params.get('id');
+  const path = params.get('path') || 'tag';
+
   if (!accountId) {
     console.warn('VWO account id missing in URL');
     return;
   }
 
-  // Create script dynamically
   const script = document.createElement('script');
-  script.src = `https://dev.visualwebsiteoptimizer.com/tags/${accountId}.js`;
+  script.src = `https://dev.visualwebsiteoptimizer.com/${path}/${accountId}.js`;
   script.async = true;
 
-  // Append to head
   document.head.appendChild(script);
 })();
 </script>
