@@ -55,25 +55,9 @@
 </script>
 	  <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<meta http-equiv="Accept-CH" content="Sec-CH-UA, Sec-CH-UA-Platform, Sec-CH-UA-Mobile, Sec-CH-UA-Full-Version, Sec-CH-UA-Model, Sec-CH-UA-Arch, Sec-CH-UA-Bitness, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List">
-<script>
-(function () {
-  const params = new URLSearchParams(window.location.search);
-
-  const accountId = params.get('id');
-  const path = params.get('path') || 'tag';
-
-  if (!accountId) {
-    console.warn('VWO account id missing in URL');
-    return;
-  }
-
-  const script = document.createElement('script');
-  script.src = `https://dev.visualwebsiteoptimizer.com/${path}/${accountId}.js`;
-  script.async = true;
-
-  document.head.appendChild(script);
-})();
-</script>
+<!-- Start VWO SmartCode --> 
+        <script src="https://dev.visualwebsiteoptimizer.com/tags/1240080.js" id="vwoCode"></script>
+        <!-- End VWO SmartCode -->
 	
   
 	  <script>
