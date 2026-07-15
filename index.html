@@ -118,6 +118,80 @@
       .site-header {
         text-align: center;
       }
+      .dynamic-section {
+        margin: 40px auto;
+        width: 95%;
+        max-width: 1100px;
+      }
+      .dynamic-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .dynamic-btn {
+        padding: 8px 14px;
+        border: none;
+        border-radius: 6px;
+        background: #1d4ed8;
+        color: #fff;
+        cursor: pointer;
+        font-size: 0.95rem;
+      }
+      .dynamic-btn-secondary {
+        background: #64748b;
+      }
+      .dynamic-btn-danger {
+        background: #b91c1c;
+      }
+      .dynamic-btn-created {
+        background: #0f766e;
+      }
+      .dynamic-status {
+        min-height: 1.3em;
+        margin: 0 0 14px;
+        color: #334155;
+        font-size: 0.95rem;
+      }
+      .dynamic-output {
+        min-height: 80px;
+        padding: 14px;
+        border: 1px dashed #94a3b8;
+        border-radius: 8px;
+        background: #f8fafc;
+      }
+      .dynamic-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+        padding: 10px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background: #fff;
+      }
+      .dynamic-item-text {
+        margin: 0;
+        color: #0f172a;
+      }
+      .dynamic-hidden-panel {
+        display: none;
+        margin-top: 14px;
+        padding: 14px;
+        border: 1px solid #86efac;
+        border-radius: 8px;
+        background: #f0fdf4;
+      }
+      .dynamic-hidden-panel.is-visible {
+        display: block;
+      }
+      .dynamic-created-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
     </style>
 	  <script id="cookieScript" class="inline-script">
   const expires = new Date();
@@ -403,6 +477,35 @@ VWO.push(['onVariationApplied', function (data) {
         </div>
       </section>
     </div>
+
+    <section id="dynamicElementsSection" class="dynamic-section embedded-feature-section">
+      <h2 id="dynamicElementsTitle" class="embedded-feature-title">Dynamic Elements</h2>
+      <p id="dynamicElementsDesc" class="embedded-feature-desc">
+        Click the buttons below to add new elements into the main document DOM.
+      </p>
+
+      <div id="dynamicControls" class="dynamic-controls">
+        <button type="button" id="addParagraphBtn" class="dynamic-btn">Add Paragraph</button>
+        <button type="button" id="addButtonBtn" class="dynamic-btn">Add Button</button>
+        <button type="button" id="addCardBtn" class="dynamic-btn">Add Card</button>
+        <button type="button" id="togglePanelBtn" class="dynamic-btn dynamic-btn-secondary">Show Extra Panel</button>
+        <button type="button" id="clearDynamicBtn" class="dynamic-btn dynamic-btn-danger">Clear All</button>
+      </div>
+
+      <p id="dynamicStatus" class="dynamic-status">No dynamic elements yet.</p>
+
+      <div id="dynamicOutput" class="dynamic-output" aria-live="polite"></div>
+
+      <div id="dynamicCreatedButtons" class="dynamic-created-buttons"></div>
+
+      <div id="dynamicExtraPanel" class="dynamic-hidden-panel" hidden>
+        <h3 id="dynamicExtraPanelTitle">Extra Panel</h3>
+        <p id="dynamicExtraPanelText">
+          This panel was hidden and is now visible in the DOM after you clicked the toggle button.
+        </p>
+        <button type="button" id="dynamicExtraPanelBtn" class="dynamic-btn">Panel Button</button>
+      </div>
+    </section>
   </main>
 
 	<script id="errorTriggerScript" class="inline-script">
@@ -701,6 +804,149 @@ VWO.push(['onVariationApplied', function (data) {
           }
 
           mountShadowLevel(shadowHost, 1);
+        })();
+    </script>
+	<script id="dynamicElementsScript" class="inline-script">
+        (function () {
+          let dynamicCount = 0;
+          let createdButtonCount = 0;
+
+          const statusEl = document.getElementById('dynamicStatus');
+          const outputEl = document.getElementById('dynamicOutput');
+          const createdButtonsEl = document.getElementById('dynamicCreatedButtons');
+          const extraPanel = document.getElementById('dynamicExtraPanel');
+          const addParagraphBtn = document.getElementById('addParagraphBtn');
+          const addButtonBtn = document.getElementById('addButtonBtn');
+          const addCardBtn = document.getElementById('addCardBtn');
+          const togglePanelBtn = document.getElementById('togglePanelBtn');
+          const clearDynamicBtn = document.getElementById('clearDynamicBtn');
+          const panelActionBtn = document.getElementById('dynamicExtraPanelBtn');
+
+          function setStatus(message) {
+            if (statusEl) {
+              statusEl.textContent = message;
+            }
+          }
+
+          function updateCountStatus() {
+            const itemCount = outputEl ? outputEl.children.length : 0;
+            const btnCount = createdButtonsEl ? createdButtonsEl.children.length : 0;
+            setStatus(
+              'Dynamic items: ' + itemCount +
+              ' | Dynamic buttons: ' + btnCount +
+              (extraPanel && !extraPanel.hidden ? ' | Extra panel: visible' : '')
+            );
+          }
+
+          if (addParagraphBtn && outputEl) {
+            addParagraphBtn.addEventListener('click', function () {
+              dynamicCount += 1;
+              const item = document.createElement('div');
+              item.id = 'dynamicParagraphItem' + dynamicCount;
+              item.className = 'dynamic-item dynamic-paragraph-item';
+
+              const text = document.createElement('p');
+              text.id = 'dynamicParagraphText' + dynamicCount;
+              text.className = 'dynamic-item-text';
+              text.textContent = 'New paragraph #' + dynamicCount + ' added to the DOM.';
+
+              const removeBtn = document.createElement('button');
+              removeBtn.id = 'dynamicParagraphRemove' + dynamicCount;
+              removeBtn.className = 'dynamic-btn dynamic-btn-danger';
+              removeBtn.type = 'button';
+              removeBtn.textContent = 'Remove';
+              removeBtn.addEventListener('click', function () {
+                item.remove();
+                updateCountStatus();
+              });
+
+              item.appendChild(text);
+              item.appendChild(removeBtn);
+              outputEl.appendChild(item);
+              updateCountStatus();
+            });
+          }
+
+          if (addButtonBtn && createdButtonsEl) {
+            addButtonBtn.addEventListener('click', function () {
+              createdButtonCount += 1;
+              const newBtn = document.createElement('button');
+              newBtn.id = 'dynamicCreatedBtn' + createdButtonCount;
+              newBtn.className = 'dynamic-btn dynamic-btn-created';
+              newBtn.type = 'button';
+              newBtn.textContent = 'New Button #' + createdButtonCount;
+              newBtn.addEventListener('click', function () {
+                setStatus('You clicked dynamic button #' + createdButtonCount);
+              });
+              createdButtonsEl.appendChild(newBtn);
+              updateCountStatus();
+            });
+          }
+
+          if (addCardBtn && outputEl) {
+            addCardBtn.addEventListener('click', function () {
+              dynamicCount += 1;
+              const card = document.createElement('div');
+              card.id = 'dynamicCard' + dynamicCount;
+              card.className = 'dynamic-item dynamic-card-item';
+
+              const title = document.createElement('p');
+              title.id = 'dynamicCardTitle' + dynamicCount;
+              title.className = 'dynamic-item-text';
+              title.textContent = 'Dynamic card #' + dynamicCount;
+
+              const actionBtn = document.createElement('button');
+              actionBtn.id = 'dynamicCardAction' + dynamicCount;
+              actionBtn.className = 'dynamic-btn';
+              actionBtn.type = 'button';
+              actionBtn.textContent = 'Card Action';
+              actionBtn.addEventListener('click', function () {
+                setStatus('Card action clicked on #' + dynamicCount);
+              });
+
+              card.appendChild(title);
+              card.appendChild(actionBtn);
+              outputEl.appendChild(card);
+              updateCountStatus();
+            });
+          }
+
+          if (togglePanelBtn && extraPanel) {
+            togglePanelBtn.addEventListener('click', function () {
+              const shouldShow = extraPanel.hidden;
+              extraPanel.hidden = !shouldShow;
+              extraPanel.classList.toggle('is-visible', shouldShow);
+              togglePanelBtn.textContent = shouldShow ? 'Hide Extra Panel' : 'Show Extra Panel';
+              updateCountStatus();
+            });
+          }
+
+          if (panelActionBtn) {
+            panelActionBtn.addEventListener('click', function () {
+              setStatus('Extra panel button clicked');
+            });
+          }
+
+          if (clearDynamicBtn) {
+            clearDynamicBtn.addEventListener('click', function () {
+              if (outputEl) {
+                outputEl.innerHTML = '';
+              }
+              if (createdButtonsEl) {
+                createdButtonsEl.innerHTML = '';
+              }
+              if (extraPanel) {
+                extraPanel.hidden = true;
+                extraPanel.classList.remove('is-visible');
+              }
+              if (togglePanelBtn) {
+                togglePanelBtn.textContent = 'Show Extra Panel';
+              }
+              dynamicCount = 0;
+              createdButtonCount = 0;
+              setStatus('All dynamic elements cleared.');
+            });
+          }
         })();
     </script>
 
