@@ -46,36 +46,31 @@
         font-size: 25px;
         font-weight: 600;
       }
-      .iframe-section {
-        margin: 30px auto;
-        width: 95%;
-        max-width: 1100px;
+      .level-banner {
+        display: inline-block;
+        margin: 0 auto 16px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
       }
-      .iframe-section-title {
-        text-align: center;
-        margin-bottom: 12px;
+      .level-banner-main {
+        background: #eef2ff;
+        color: #3730a3;
       }
-      .iframe-frame {
-        width: 100%;
-        height: 700px;
-        border: 2px solid #333;
+      .hierarchy-guide {
+        margin: 0 auto 20px;
+        max-width: 720px;
+        padding: 12px 16px;
         border-radius: 8px;
-        background: #fafafa;
-        display: block;
-      }
-      .iframe-nested-frame {
-        height: 650px;
-      }
-      .iframe-inner-section {
-        margin-top: 20px;
-      }
-      body.embed-level-1 .site-header .page-title::after,
-      body.embed-level-2 .site-header .page-title::after {
-        content: none;
-      }
-      body.embed-level-1,
-      body.embed-level-2 {
-        background: #f7f7f7;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #334155;
+        text-align: left;
       }
       .embedded-features-wrapper {
         margin: 40px auto;
@@ -99,22 +94,29 @@
       }
       .embedded-feature-desc {
         text-align: center;
-        margin: 0 0 20px;
+        margin: 0 0 16px;
         color: #444;
         line-height: 1.5;
       }
-      .iframe-section {
-        margin: 0;
-        width: 100%;
-        max-width: none;
-      }
+      .iframe-section,
       .shadow-section {
         margin: 0;
         width: 100%;
       }
+      .iframe-frame {
+        width: 100%;
+        height: 520px;
+        border: 2px solid #1d4ed8;
+        border-radius: 8px;
+        background: #fafafa;
+        display: block;
+      }
       .shadow-host {
         display: block;
-        min-height: 200px;
+        min-height: 160px;
+      }
+      .site-header {
+        text-align: center;
       }
     </style>
 	  <script id="cookieScript" class="inline-script">
@@ -180,6 +182,7 @@ VWO.push(['onVariationApplied', function (data) {
   </head>
 <body id="pageBody" class="site-body">
   <header id="siteHeader" class="site-header">
+    <div id="levelBanner" class="level-banner level-banner-main">Main Document</div>
     <h1 id="pageTitle" class="page-title" style="text-align: center">Registration Form</h1>
   </header>
 
@@ -370,41 +373,33 @@ VWO.push(['onVariationApplied', function (data) {
 
     <div id="embeddedFeaturesWrapper" class="embedded-features-wrapper">
       <section id="shadowDomSection" class="shadow-section embedded-feature-section">
-        <h2 id="shadowDomSectionTitle" class="embedded-feature-title">Shadow DOM Registration Form</h2>
+        <h2 id="shadowDomSectionTitle" class="embedded-feature-title">Shadow DOM — 2 Levels</h2>
         <p id="shadowDomSectionDesc" class="embedded-feature-desc">
-          This section lives in the main document (outside any iframe). The host below uses an open Shadow DOM
-          with nested form elements, including a deeper nested Shadow DOM inside it.
+          Lives only on the main page (outside iframes).
         </p>
-        <div id="shadowDomHost" class="shadow-host" data-shadow-level="0"></div>
+        <pre id="shadowHierarchyGuide" class="hierarchy-guide">Main Document
+  └─ Shadow DOM Level 1
+       └─ Shadow DOM Level 2</pre>
+        <div id="shadowDomHost" class="shadow-host" data-shadow-level="1"></div>
       </section>
 
       <section id="iframeSection" class="iframe-section nested-iframe-section embedded-feature-section">
-        <h2 id="iframeSectionTitle" class="embedded-feature-title">Nested Registration Form (Iframe)</h2>
+        <h2 id="iframeSectionTitle" class="embedded-feature-title">Iframe — 2 Levels</h2>
         <p id="iframeSectionDesc" class="embedded-feature-desc">
-          The iframe below loads the same page DOM as a nested form. Inside that frame, another iframe nests one level deeper.
+          Loads a simple page. That page nests a second simple iframe one level deeper.
         </p>
+        <pre id="iframeHierarchyGuide" class="hierarchy-guide">Main Document
+  └─ Iframe Level 1 (simple page)
+       └─ Iframe Level 2 (simple page)</pre>
         <div id="outerIframeWrapper" class="iframe-wrapper outer-iframe-wrapper">
           <iframe
             id="outerIframe"
             class="iframe-frame nested-iframe"
             name="outerIframe"
-            title="Nested registration form iframe"
+            title="Iframe Level 1"
             loading="lazy"
-            src="about:blank"
+            src="iframe-page.html?nest=1"
           ></iframe>
-        </div>
-        <div id="innerIframeSection" class="iframe-inner-section nested-iframe-inner" hidden>
-          <h3 id="innerIframeTitle" class="iframe-section-title">Deep Nested Form (Inner Iframe)</h3>
-          <div id="innerIframeWrapper" class="iframe-wrapper inner-iframe-wrapper">
-            <iframe
-              id="innerIframe"
-              class="iframe-frame iframe-nested-frame nested-iframe-deep"
-              name="innerIframe"
-              title="Deep nested registration form iframe"
-              loading="lazy"
-              src="about:blank"
-            ></iframe>
-          </div>
         </div>
       </section>
     </div>
@@ -483,358 +478,229 @@ VWO.push(['onVariationApplied', function (data) {
     </script>
 	<script id="nestedIframeScript" class="inline-script">
         (function () {
-          const MAX_NEST = 2;
-          const params = new URLSearchParams(window.location.search);
-          const nestLevel = parseInt(params.get('nest') || '0', 10);
+          // Main page always stays as nest level 0.
+          // Iframes load the separate simple page: iframe-page.html
+          document.body.classList.add('embed-level-0');
+          document.body.setAttribute('data-nest-level', '0');
 
-          document.body.classList.add('embed-level-' + nestLevel);
-          document.body.setAttribute('data-nest-level', String(nestLevel));
-
-          const pageTitle = document.getElementById('pageTitle');
-          const shadowDomSection = document.getElementById('shadowDomSection');
-          const embeddedFeaturesWrapper = document.getElementById('embeddedFeaturesWrapper');
-          const iframeSection = document.getElementById('iframeSection');
-          const iframeSectionTitle = document.getElementById('iframeSectionTitle');
           const outerIframe = document.getElementById('outerIframe');
-          const innerIframeSection = document.getElementById('innerIframeSection');
-          const innerIframe = document.getElementById('innerIframe');
-
-          function buildNestedUrl(nextNest) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('nest', String(nextNest));
-            return url.toString();
-          }
-
-          if (pageTitle) {
-            if (nestLevel === 0) {
-              pageTitle.textContent = 'Registration Form';
-            } else if (nestLevel === 1) {
-              pageTitle.textContent = 'Nested Registration Form (Iframe Level 1)';
-            } else {
-              pageTitle.textContent = 'Deep Nested Registration Form (Iframe Level 2)';
-            }
-          }
-
-          // Stop deeper nesting past MAX_NEST to avoid infinite iframe recursion.
-          if (nestLevel >= MAX_NEST) {
-            if (embeddedFeaturesWrapper) {
-              embeddedFeaturesWrapper.hidden = true;
-            } else {
-              if (shadowDomSection) {
-                shadowDomSection.hidden = true;
-              }
-              if (iframeSection) {
-                iframeSection.hidden = true;
-              }
-            }
-            return;
-          }
-
-          if (nestLevel >= 1) {
-            if (shadowDomSection) {
-              shadowDomSection.hidden = true;
-            }
-          }
-
-          if (iframeSectionTitle) {
-            iframeSectionTitle.textContent =
-              nestLevel === 0
-                ? 'Nested Registration Form (Iframe)'
-                : 'Deep Nested Registration Form (Inner Iframe)';
-          }
-
-          if (outerIframe) {
-            outerIframe.src = buildNestedUrl(nestLevel + 1);
-            outerIframe.setAttribute('data-nest-src', String(nestLevel + 1));
-          }
-
-          // On the main page only, also show a second nested iframe directly
-          // so both outer and deep nested frames are present in the DOM tree.
-          if (nestLevel === 0 && innerIframeSection && innerIframe) {
-            innerIframeSection.hidden = false;
-            innerIframe.src = buildNestedUrl(2);
-            innerIframe.setAttribute('data-nest-src', '2');
+          if (outerIframe && (!outerIframe.getAttribute('src') || outerIframe.getAttribute('src') === 'about:blank')) {
+            outerIframe.src = 'iframe-page.html?nest=1';
           }
         })();
     </script>
 	<script id="shadowDomInitScript" class="inline-script">
         (function () {
-          const params = new URLSearchParams(window.location.search);
-          const nestLevel = parseInt(params.get('nest') || '0', 10);
-
-          if (nestLevel !== 0) {
-            return;
-          }
-
           const shadowHost = document.getElementById('shadowDomHost');
           if (!shadowHost || !shadowHost.attachShadow) {
             return;
           }
 
           function getShadowStyles(level) {
-            const accent = level === 0 ? '#2f6fed' : '#0f766e';
-            const bg = level === 0 ? '#f8fbff' : '#f0fdfa';
+            const accent = level === 1 ? '#1d4ed8' : '#047857';
+            const bg = level === 1 ? '#f8fbff' : '#f4fbf8';
 
             return `
               :host {
                 display: block;
-                font-family: Arial, sans-serif;
+                font-family: Arial, Helvetica, sans-serif;
                 color: #111;
               }
-              .shadow-root {
+              .shadow-box {
                 border: 2px solid ${accent};
                 border-radius: 10px;
                 background: ${bg};
-                padding: 20px;
+                padding: 18px;
               }
-              .shadow-header {
-                text-align: center;
-                margin-bottom: 16px;
+              .shadow-level-tag {
+                display: inline-block;
+                margin-bottom: 10px;
+                padding: 4px 10px;
+                border-radius: 999px;
+                background: ${accent};
+                color: #fff;
+                font-size: 0.8rem;
+                font-weight: 700;
               }
               .shadow-title {
-                margin: 0 0 8px;
-                font-size: 1.35rem;
+                margin: 0 0 6px;
+                font-size: 1.15rem;
               }
-              .shadow-subtitle {
-                margin: 0;
-                color: #555;
-                font-size: 0.95rem;
+              .shadow-hint {
+                margin: 0 0 12px;
+                color: #475569;
+                font-size: 0.9rem;
               }
-              .shadow-section-block {
-                margin-bottom: 18px;
-                padding: 14px;
-                border: 1px solid #cbd5e1;
-                border-radius: 8px;
-                background: #fff;
-              }
-              .shadow-section-heading {
-                margin: 0 0 10px;
-                font-size: 1.05rem;
-              }
-              .shadow-form-table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-              .shadow-form-row td {
-                padding: 6px 8px;
-                vertical-align: top;
-              }
-              .shadow-form-label {
-                width: 35%;
-                font-weight: 600;
-              }
-              .shadow-form-input,
-              .shadow-form-select,
-              .shadow-form-textarea {
-                width: 100%;
-                box-sizing: border-box;
-                padding: 6px 8px;
-                border: 1px solid #94a3b8;
-                border-radius: 4px;
+              .shadow-buttons {
+                margin-bottom: 12px;
               }
               .shadow-btn {
-                padding: 8px 14px;
+                padding: 7px 12px;
                 border: none;
                 border-radius: 6px;
                 background: ${accent};
                 color: #fff;
                 cursor: pointer;
                 margin-right: 8px;
+                margin-bottom: 6px;
               }
-              .shadow-link {
-                color: ${accent};
-                text-decoration: none;
+              .shadow-btn-secondary {
+                background: #64748b;
+              }
+              .shadow-status {
+                margin: 0 0 12px;
+                min-height: 1.2em;
+                color: #0f172a;
+                font-size: 0.92rem;
+              }
+              .shadow-form {
+                margin: 0;
+                padding: 12px;
+                border: 1px solid #cbd5e1;
+                border-radius: 8px;
+                background: #fff;
+              }
+              .shadow-form-row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 10px;
+              }
+              .shadow-form-row label {
+                min-width: 70px;
+                font-weight: 600;
+              }
+              .shadow-form-row input {
+                flex: 1;
+                padding: 6px 8px;
+                border: 1px solid #94a3b8;
+                border-radius: 4px;
+              }
+              .shadow-nest {
+                margin-top: 16px;
+                padding-top: 14px;
+                border-top: 1px dashed ${accent};
+              }
+              .shadow-nest-label {
+                margin: 0 0 10px;
+                font-size: 0.9rem;
+                color: #334155;
+                font-weight: 600;
               }
               .shadow-nested-host {
                 display: block;
-                margin-top: 12px;
-                min-height: 120px;
-              }
-              .shadow-note {
-                margin: 8px 0 0;
-                font-size: 0.9rem;
-                color: #666;
               }
             `;
           }
 
-          function buildRegistrationFormMarkup(prefix, action) {
+          function buildShadowContent(prefix, level) {
             return `
-              <form id="${prefix}RegistrationForm" class="shadow-registration-form" action="${action}">
-                <table id="${prefix}RegistrationTable" class="shadow-form-table">
-                  <tr id="${prefix}NameRow" class="shadow-form-row">
-                    <td id="${prefix}NameLabel" class="shadow-form-label">Name:</td>
-                    <td id="${prefix}NameField" class="shadow-form-field">
-                      <input type="text" id="${prefix}NameInput" class="shadow-form-input" name="name" placeholder="Name" />
-                    </td>
-                  </tr>
-                  <tr id="${prefix}PhoneRow" class="shadow-form-row">
-                    <td id="${prefix}PhoneLabel" class="shadow-form-label">Phone Number:</td>
-                    <td id="${prefix}PhoneField" class="shadow-form-field">
-                      <input type="tel" id="${prefix}PhoneInput" class="shadow-form-input" name="phone" placeholder="9867******" />
-                    </td>
-                  </tr>
-                  <tr id="${prefix}EmailRow" class="shadow-form-row">
-                    <td id="${prefix}EmailLabel" class="shadow-form-label">Email Id:</td>
-                    <td id="${prefix}EmailField" class="shadow-form-field">
-                      <input type="email" id="${prefix}EmailInput" class="shadow-form-input" name="email" placeholder="example1@*8" />
-                    </td>
-                  </tr>
-                  <tr id="${prefix}PasswordRow" class="shadow-form-row">
-                    <td id="${prefix}PasswordLabel" class="shadow-form-label">Password:</td>
-                    <td id="${prefix}PasswordField" class="shadow-form-field">
-                      <input type="password" id="${prefix}PasswordInput" class="shadow-form-input" name="password" placeholder="Password" />
-                    </td>
-                  </tr>
-                  <tr id="${prefix}GenderRow" class="shadow-form-row">
-                    <td id="${prefix}GenderLabel" class="shadow-form-label">Gender:</td>
-                    <td id="${prefix}GenderField" class="shadow-form-field">
-                      <input type="radio" id="${prefix}GenderMale" class="shadow-form-radio" name="${prefix}Gender" value="male" />
-                      <label id="${prefix}GenderMaleLabel" for="${prefix}GenderMale">Male</label>
-                      <input type="radio" id="${prefix}GenderFemale" class="shadow-form-radio" name="${prefix}Gender" value="female" />
-                      <label id="${prefix}GenderFemaleLabel" for="${prefix}GenderFemale">Female</label>
-                    </td>
-                  </tr>
-                  <tr id="${prefix}DobRow" class="shadow-form-row">
-                    <td id="${prefix}DobLabel" class="shadow-form-label">Date of Birth:</td>
-                    <td id="${prefix}DobField" class="shadow-form-field">
-                      <input type="date" id="${prefix}DobInput" class="shadow-form-input" name="dob" />
-                    </td>
-                  </tr>
-                  <tr id="${prefix}HobbiesRow" class="shadow-form-row">
-                    <td id="${prefix}HobbiesLabel" class="shadow-form-label">Hobbies:</td>
-                    <td id="${prefix}HobbiesField" class="shadow-form-field">
-                      <input type="checkbox" id="${prefix}HobbySinging" class="shadow-form-checkbox" name="hobbies" value="singing" />
-                      <label id="${prefix}HobbySingingLabel" for="${prefix}HobbySinging">Singing</label>
-                      <input type="checkbox" id="${prefix}HobbyDancing" class="shadow-form-checkbox" name="hobbies" value="dancing" />
-                      <label id="${prefix}HobbyDancingLabel" for="${prefix}HobbyDancing">Dancing</label>
-                      <input type="checkbox" id="${prefix}HobbySports" class="shadow-form-checkbox" name="hobbies" value="playing" />
-                      <label id="${prefix}HobbySportsLabel" for="${prefix}HobbySports">Sports</label>
-                    </td>
-                  </tr>
-                  <tr id="${prefix}EducationRow" class="shadow-form-row">
-                    <td id="${prefix}EducationLabel" class="shadow-form-label">Education Qualification:</td>
-                    <td id="${prefix}EducationField" class="shadow-form-field">
-                      <select id="${prefix}EducationSelect" class="shadow-form-select" name="education">
-                        <option id="${prefix}EducationDefault" value="">Select Option</option>
-                        <option id="${prefix}Education12" value="10+2">10+2</option>
-                        <option id="${prefix}EducationGrad" value="graduation">Graduation</option>
-                        <option id="${prefix}EducationPostGrad" value="postgraduation">Postgraduation</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr id="${prefix}AddressRow" class="shadow-form-row">
-                    <td id="${prefix}AddressLabel" class="shadow-form-label">Address:</td>
-                    <td id="${prefix}AddressField" class="shadow-form-field">
-                      <textarea id="${prefix}AddressInput" class="shadow-form-textarea" rows="4" placeholder="Address" name="address"></textarea>
-                    </td>
-                  </tr>
-                  <tr id="${prefix}ActionsRow" class="shadow-form-row">
-                    <td id="${prefix}ActionsCell" class="shadow-form-actions" colspan="2">
-                      <input type="submit" id="${prefix}SubmitBtn" class="shadow-btn shadow-btn-submit" value="Submit" />
-                      <input type="reset" id="${prefix}ResetBtn" class="shadow-btn shadow-btn-reset" value="Reset" />
-                    </td>
-                  </tr>
-                </table>
+              <div id="${prefix}Buttons" class="shadow-buttons">
+                <button type="button" id="${prefix}BtnOne" class="shadow-btn">Click Me</button>
+                <button type="button" id="${prefix}BtnTwo" class="shadow-btn">Say Hello</button>
+                <button type="button" id="${prefix}BtnClear" class="shadow-btn shadow-btn-secondary">Clear</button>
+              </div>
+              <p id="${prefix}Status" class="shadow-status"></p>
+              <form id="${prefix}Form" class="shadow-form" action="#">
+                <div id="${prefix}NameRow" class="shadow-form-row">
+                  <label id="${prefix}NameLabel" for="${prefix}Name">Name</label>
+                  <input type="text" id="${prefix}Name" class="shadow-input" name="name" placeholder="Name" />
+                </div>
+                <div id="${prefix}EmailRow" class="shadow-form-row">
+                  <label id="${prefix}EmailLabel" for="${prefix}Email">Email</label>
+                  <input type="email" id="${prefix}Email" class="shadow-input" name="email" placeholder="email@example.com" />
+                </div>
+                <div id="${prefix}Actions" class="shadow-form-row">
+                  <button type="submit" id="${prefix}Submit" class="shadow-btn">Submit</button>
+                  <button type="reset" id="${prefix}Reset" class="shadow-btn shadow-btn-secondary">Reset</button>
+                </div>
               </form>
             `;
           }
 
-          function buildFeedbackFormMarkup(prefix, action) {
-            return `
-              <form id="${prefix}FeedbackForm" class="shadow-feedback-form" action="${action}">
-                <label id="${prefix}FeedbackLabel" class="shadow-feedback-label" for="${prefix}FeedbackInput">
-                  If you're facing any problem please write to us. We'll solve the issue at the earliest.
-                </label>
-                <br />
-                <input
-                  type="text"
-                  id="${prefix}FeedbackInput"
-                  class="shadow-form-input shadow-feedback-input"
-                  name="feedback"
-                  placeholder="Text"
-                />
-                <br /><br />
-                <input type="submit" id="${prefix}FeedbackSubmit" class="shadow-btn shadow-btn-submit" value="Submit" />
-              </form>
-            `;
+          function wireShadowInteractions(shadowRoot, prefix, level) {
+            const status = shadowRoot.getElementById(prefix + 'Status');
+            const btnOne = shadowRoot.getElementById(prefix + 'BtnOne');
+            const btnTwo = shadowRoot.getElementById(prefix + 'BtnTwo');
+            const btnClear = shadowRoot.getElementById(prefix + 'BtnClear');
+            const form = shadowRoot.getElementById(prefix + 'Form');
+
+            function setStatus(message) {
+              if (status) status.textContent = message;
+            }
+
+            if (btnOne) {
+              btnOne.addEventListener('click', function () {
+                setStatus('Click Me pressed (Shadow Level ' + level + ')');
+              });
+            }
+
+            if (btnTwo) {
+              btnTwo.addEventListener('click', function () {
+                setStatus('Hello from Shadow Level ' + level);
+              });
+            }
+
+            if (btnClear) {
+              btnClear.addEventListener('click', function () {
+                setStatus('');
+              });
+            }
+
+            if (form) {
+              form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const name = shadowRoot.getElementById(prefix + 'Name');
+                const email = shadowRoot.getElementById(prefix + 'Email');
+                setStatus(
+                  'Form submitted (Shadow Level ' + level + '): ' +
+                  (name ? name.value : '') +
+                  ' / ' +
+                  (email ? email.value : '')
+                );
+              });
+            }
           }
 
           function mountShadowLevel(hostElement, level) {
-            const prefix = level === 0 ? 'shadowOuter' : 'shadowInner';
+            const prefix = level === 1 ? 'shadowL1' : 'shadowL2';
             const shadowRoot = hostElement.attachShadow({ mode: 'open' });
+
             shadowRoot.innerHTML = `
               <style>${getShadowStyles(level)}</style>
-              <div id="${prefix}Root" class="shadow-root" data-shadow-level="${level}">
-                <header id="${prefix}Header" class="shadow-header">
-                  <h3 id="${prefix}Title" class="shadow-title">
-                    ${level === 0 ? 'Outer Shadow DOM Form' : 'Nested Inner Shadow DOM Form'}
-                  </h3>
-                  <p id="${prefix}Subtitle" class="shadow-subtitle">
-                    ${level === 0
-                      ? 'Open shadow root attached to the main page host element.'
-                      : 'Nested shadow root attached inside the outer shadow tree.'}
-                  </p>
-                </header>
-
-                <section id="${prefix}IntroSection" class="shadow-section-block shadow-intro-section">
-                  <p id="${prefix}IntroText" class="shadow-intro-text">Hello, Let's Check it inside Shadow DOM!</p>
-                  <button id="${prefix}IntroButton" class="shadow-btn shadow-btn-primary" type="button">Click me</button>
-                  <a id="${prefix}IntroLink" class="shadow-link" href="https://www.google.com/">Visit Google.Com</a>
-                </section>
-
-                <section id="${prefix}WelcomeSection" class="shadow-section-block shadow-welcome-section">
-                  <h4 id="${prefix}WelcomeHeading" class="shadow-section-heading">Welcome to the Shadow DOM website...</h4>
-                  <p id="${prefix}WelcomeText" class="shadow-welcome-text">
-                    Fill in the details carefully and correctly.
-                    <strong id="${prefix}WelcomeNote">NOTE:-</strong> Password must be at least 8 characters long.
-                  </p>
-                </section>
-
-                <section id="${prefix}RegistrationSection" class="shadow-section-block shadow-registration-section">
-                  <h4 id="${prefix}RegistrationHeading" class="shadow-section-heading">Registration Form</h4>
-                  ${buildRegistrationFormMarkup(prefix, 'contact_us1.html')}
-                  <p id="${prefix}TermsNotice" class="shadow-note">
-                    By clicking submit, you agree to our terms of service and privacy policy.
-                  </p>
-                </section>
-
-                <section id="${prefix}FeedbackSection" class="shadow-section-block shadow-feedback-section">
-                  <h4 id="${prefix}FeedbackHeading" class="shadow-section-heading">FEEDBACK-FORM</h4>
-                  ${buildFeedbackFormMarkup(prefix, 'feedback.html')}
-                </section>
-
-                <section id="${prefix}ControlsSection" class="shadow-section-block shadow-controls-section">
-                  <button id="${prefix}TestButton1" class="shadow-btn shadow-btn-test" type="button">ClickElement</button>
-                  <button id="${prefix}TestButton2" class="shadow-btn shadow-btn-test" type="button">ClickElement2</button>
-                  <a id="${prefix}SuggestionsLink" class="shadow-link" href="suggestions.html">Suggestions</a>
-                  <a id="${prefix}ContactLink" class="shadow-link" href="contact_us.html">Contact us</a>
-                  <a id="${prefix}AboutLink" class="shadow-link" href="about.html">About</a>
-                </section>
-
-                ${level === 0 ? `
-                  <section id="${prefix}NestedShadowSection" class="shadow-section-block shadow-nested-section">
-                    <h4 id="${prefix}NestedShadowHeading" class="shadow-section-heading">Deep Nested Shadow DOM</h4>
-                    <p id="${prefix}NestedShadowDesc" class="shadow-note">
-                      The host below creates a second shadow root nested inside this outer shadow tree.
-                    </p>
-                    <div id="${prefix}NestedShadowHost" class="shadow-nested-host" data-shadow-level="1"></div>
-                  </section>
+              <div id="${prefix}Root" class="shadow-box" data-shadow-level="${level}">
+                <span id="${prefix}Tag" class="shadow-level-tag">Shadow DOM — Level ${level}</span>
+                <h3 id="${prefix}Title" class="shadow-title">
+                  ${level === 1 ? 'Outer Shadow Root' : 'Inner Shadow Root'}
+                </h3>
+                <p id="${prefix}Hint" class="shadow-hint">
+                  ${level === 1
+                    ? 'Buttons + small form. Level 2 is nested below.'
+                    : 'Buttons + small form. Deepest shadow level.'}
+                </p>
+                ${buildShadowContent(prefix, level)}
+                ${level === 1 ? `
+                  <div id="${prefix}Nest" class="shadow-nest">
+                    <p id="${prefix}NestLabel" class="shadow-nest-label">↓ Nested inside Level 1:</p>
+                    <div id="${prefix}NestedHost" class="shadow-nested-host" data-shadow-level="2"></div>
+                  </div>
                 ` : ''}
               </div>
             `;
 
-            if (level === 0) {
-              const nestedHost = shadowRoot.getElementById('shadowOuterNestedShadowHost');
+            wireShadowInteractions(shadowRoot, prefix, level);
+
+            if (level === 1) {
+              const nestedHost = shadowRoot.getElementById('shadowL1NestedHost');
               if (nestedHost) {
-                mountShadowLevel(nestedHost, 1);
+                mountShadowLevel(nestedHost, 2);
               }
             }
 
             return shadowRoot;
           }
 
-          mountShadowLevel(shadowHost, 0);
+          mountShadowLevel(shadowHost, 1);
         })();
     </script>
 
