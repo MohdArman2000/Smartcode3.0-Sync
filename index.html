@@ -1,4 +1,4 @@
- <html>
+<html lang="en" id="htmlRoot" class="page-root">
   <head>
     <title>My Website</title>
     <style>
@@ -46,16 +46,86 @@
         font-size: 25px;
         font-weight: 600;
       }
+      .iframe-section {
+        margin: 30px auto;
+        width: 95%;
+        max-width: 1100px;
+      }
+      .iframe-section-title {
+        text-align: center;
+        margin-bottom: 12px;
+      }
+      .iframe-frame {
+        width: 100%;
+        height: 700px;
+        border: 2px solid #333;
+        border-radius: 8px;
+        background: #fafafa;
+        display: block;
+      }
+      .iframe-nested-frame {
+        height: 650px;
+      }
+      .iframe-inner-section {
+        margin-top: 20px;
+      }
+      body.embed-level-1 .site-header .page-title::after,
+      body.embed-level-2 .site-header .page-title::after {
+        content: none;
+      }
+      body.embed-level-1,
+      body.embed-level-2 {
+        background: #f7f7f7;
+      }
+      .embedded-features-wrapper {
+        margin: 40px auto;
+        width: 95%;
+        max-width: 1100px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+      .embedded-feature-section {
+        border: 1px solid #d0d0d0;
+        border-radius: 12px;
+        padding: 24px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+      .embedded-feature-title {
+        text-align: center;
+        margin: 0 0 8px;
+        font-size: 1.5rem;
+      }
+      .embedded-feature-desc {
+        text-align: center;
+        margin: 0 0 20px;
+        color: #444;
+        line-height: 1.5;
+      }
+      .iframe-section {
+        margin: 0;
+        width: 100%;
+        max-width: none;
+      }
+      .shadow-section {
+        margin: 0;
+        width: 100%;
+      }
+      .shadow-host {
+        display: block;
+        min-height: 200px;
+      }
     </style>
-	  <script>
+	  <script id="cookieScript" class="inline-script">
   const expires = new Date();
   expires.setDate(expires.getDate() + 7);
 
   document.cookie = `abc=A123; expires=${expires.toUTCString()}; path=/`;
 </script>
-	  <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-	<meta http-equiv="Accept-CH" content="Sec-CH-UA, Sec-CH-UA-Platform, Sec-CH-UA-Mobile, Sec-CH-UA-Full-Version, Sec-CH-UA-Model, Sec-CH-UA-Arch, Sec-CH-UA-Bitness, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List">
-<script>
+	  <script id="jqueryLib" class="external-script" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<meta http-equiv="Accept-CH" content="Sec-CH-UA, Sec-CH-UA-Platform, Sec-CH-UA-Mobile, Sec-CH-UA-Full-Version, Sec-CH-UA-Model, Sec-CH-UA-Arch, Sec-CH-UA-Bitness, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List" id="acceptChMeta" class="meta-tag">
+<script id="vwoLoaderScript" class="inline-script">
 (function () {
   const params = new URLSearchParams(window.location.search);
 
@@ -75,13 +145,14 @@
 })();
 </script>
 	
+
   
-	  <script>
+	  <script id="domReadyScript" class="inline-script">
         document.addEventListener("DOMContentLoaded", function(event) {
             console.log("DOM content loaded");
         });
     </script>
-		  <script>
+		  <script id="vwoDataScript" class="inline-script">
         window.VWO = window.VWO || [];
         window.VWO.data = window.VWO.data || {};
         window.VWO.data.acquia = {
@@ -98,7 +169,7 @@
 
         console.log("VWO Data:", window.VWO.data);
     </script>
-	  <script>
+	  <script id="vwoVariationScript" class="inline-script">
 window.VWO = window.VWO || [];
 VWO.push(['onVariationApplied', function (data) {
     console.log("onVariationApplied called");
@@ -107,116 +178,131 @@ VWO.push(['onVariationApplied', function (data) {
 	  </script>
 	
   </head>
-<body>
-    <h1 style="text-align: center">Registration Form</h1>
-	<div id="parentDiv">
-  <p id="childP">Hello, Let's Check it!</p>
-  <button id="childButton">Click me</button>
-  <a id="childLink" href="https://www.google.com/">Visit Google.Com</a>
+<body id="pageBody" class="site-body">
+  <header id="siteHeader" class="site-header">
+    <h1 id="pageTitle" class="page-title" style="text-align: center">Registration Form</h1>
+  </header>
+
+  <main id="siteMain" class="site-main">
+	<div id="parentDiv" class="intro-block">
+  <p id="childP" class="intro-text">Hello, Let's Check it!</p>
+  <button id="childButton" class="btn btn-primary" type="button">Click me</button>
+  <a id="childLink" class="external-link" href="https://www.google.com/">Visit Google.Com</a>
 </div>
-    <div class="div1">
-      <h2 id="WelMsg">Welcome to the website, Registration Starts Here...</h2>
-      <p id="Welpara">
+
+    <section id="welcomeSection" class="div1 welcome-section">
+      <h2 id="WelMsg" class="welcome-heading">Welcome to the website, Registration Starts Here...</h2>
+      <p id="Welpara" class="welcome-text">
         Let's start now, just try to fill in the details carefully and
         correctly.<br /><br />
-        <b>NOTE:-</b>Please enter a password that is at least 8 characters long.
+        <b id="passwordNote" class="note-label">NOTE:-</b>Please enter a password that is at least 8 characters long.
       </p>
-	<p id="p2"><strong>SPA BUTTON</strong></p>
-    <button onclick="historyPushUrl()">SPA URL</button>
-	<br/>
-	<br/>
-    </div>
-    <form action="contact_us1.html" id="registrationForm">
-      <table>
-        <tr>
-          <td>Name:</td>
-          <td>
-            <input type="text" placeholder="Name" name="" />
+	<p id="p2" class="spa-label"><strong id="spaLabelStrong" class="label-strong">SPA BUTTON</strong></p>
+    <button id="spaUrlButton" class="btn btn-spa" type="button" onclick="historyPushUrl()">SPA URL</button>
+	<br id="spaBreak1" class="spacer" />
+	<br id="spaBreak2" class="spacer" />
+    </section>
+
+    <section id="registrationSection" class="form-section registration-section">
+    <form action="contact_us1.html" id="registrationForm" class="registration-form">
+      <table id="registrationTable" class="form-table">
+        <tr id="nameRow" class="form-row">
+          <td id="nameLabelCell" class="form-label">Name:</td>
+          <td id="nameInputCell" class="form-field">
+            <input type="text" id="regName" class="form-input" placeholder="Name" name="name" />
           </td>
         </tr>
-        <tr>
-          <td>Phone Number:</td>
-          <td>
-            <input type="phone" placeholder="9867******" />
+        <tr id="phoneRow" class="form-row">
+          <td id="phoneLabelCell" class="form-label">Phone Number:</td>
+          <td id="phoneInputCell" class="form-field">
+            <input type="tel" id="regPhone" class="form-input" placeholder="9867******" name="phone" />
           </td>
         </tr>
-        <tr>
-          <td>Email Id:</td>
-          <td>
-            <input type="email" placeholder="example1@*8" />
+        <tr id="emailRow" class="form-row">
+          <td id="emailLabelCell" class="form-label">Email Id:</td>
+          <td id="emailInputCell" class="form-field">
+            <input type="email" id="regEmail" class="form-input" placeholder="example1@*8" name="email" />
           </td>
         </tr>
-        <tr>
-          <td>Password:</td>
-          <td>
-            <input type="password" placeholder="Password" />
+        <tr id="passwordRow" class="form-row">
+          <td id="passwordLabelCell" class="form-label">Password:</td>
+          <td id="passwordInputCell" class="form-field">
+            <input type="password" id="regPassword" class="form-input" placeholder="Password" name="password" />
           </td>
         </tr>
-        <tr>
-          <td>Gender:</td>
-          <td>
-            <input type="radio" name="gender" />Male
-            <input type="radio" name="gender" />Female
+        <tr id="genderRow" class="form-row">
+          <td id="genderLabelCell" class="form-label">Gender:</td>
+          <td id="genderInputCell" class="form-field">
+            <input type="radio" id="genderMale" class="form-radio" name="gender" value="male" />
+            <label id="genderMaleLabel" class="radio-label" for="genderMale">Male</label>
+            <input type="radio" id="genderFemale" class="form-radio" name="gender" value="female" />
+            <label id="genderFemaleLabel" class="radio-label" for="genderFemale">Female</label>
           </td>
         </tr>
-        <tr>
-          <td>Date of Birth:</td>
-          <td>
-            <input type="date" />
+        <tr id="dobRow" class="form-row">
+          <td id="dobLabelCell" class="form-label">Date of Birth:</td>
+          <td id="dobInputCell" class="form-field">
+            <input type="date" id="regDob" class="form-input" name="dob" />
           </td>
         </tr>
-        <tr>
-          <td>Hobbies:</td>
-          <td>
-            <input type="checkbox" singing />Singing
-            <input type="checkbox" Dancing />Dancing
-            <input type="checkbox" playing />Sports
+        <tr id="hobbiesRow" class="form-row">
+          <td id="hobbiesLabelCell" class="form-label">Hobbies:</td>
+          <td id="hobbiesInputCell" class="form-field">
+            <input type="checkbox" id="hobbySinging" class="form-checkbox" name="hobbies" value="singing" />
+            <label id="hobbySingingLabel" class="checkbox-label" for="hobbySinging">Singing</label>
+            <input type="checkbox" id="hobbyDancing" class="form-checkbox" name="hobbies" value="dancing" />
+            <label id="hobbyDancingLabel" class="checkbox-label" for="hobbyDancing">Dancing</label>
+            <input type="checkbox" id="hobbySports" class="form-checkbox" name="hobbies" value="playing" />
+            <label id="hobbySportsLabel" class="checkbox-label" for="hobbySports">Sports</label>
           </td>
         </tr>
-        <tr>
-          <td>Education Qualification:</td>
-          <td>
-            <select>
-              <option>Select Option</option>
-              <option>10+2</option>
-              <option>Graduation</option>
-              <option>Postgraduation</option>
+        <tr id="educationRow" class="form-row">
+          <td id="educationLabelCell" class="form-label">Education Qualification:</td>
+          <td id="educationInputCell" class="form-field">
+            <select id="regEducation" class="form-select" name="education">
+              <option id="eduOptionDefault" class="select-option" value="">Select Option</option>
+              <option id="eduOption12" class="select-option" value="10+2">10+2</option>
+              <option id="eduOptionGrad" class="select-option" value="graduation">Graduation</option>
+              <option id="eduOptionPostGrad" class="select-option" value="postgraduation">Postgraduation</option>
             </select>
           </td>
         </tr>
-        <tr>
-          <td>Address:</td>
-          <td>
-            <textarea rows="5" col="17" placeholder="Address"></textarea>
+        <tr id="addressRow" class="form-row">
+          <td id="addressLabelCell" class="form-label">Address:</td>
+          <td id="addressInputCell" class="form-field">
+            <textarea id="regAddress" class="form-textarea" rows="5" cols="17" placeholder="Address" name="address"></textarea>
           </td>
         </tr>
-        <tr>
-          <td>
-            <input type="submit" value="Submit" />
-            <input type="reset" value="Reset" />
+        <tr id="submitRow" class="form-row form-actions-row">
+          <td id="submitCell" class="form-actions" colspan="2">
+            <input type="submit" id="regSubmit" class="btn btn-submit" value="Submit" />
+            <input type="reset" id="regReset" class="btn btn-reset" value="Reset" />
           </td>
         </tr>
       </table>
     </form>
-    <h3>
+    <h3 id="termsNotice" class="terms-notice">
       By clicking submit, you agree to our terms of service and privacy policy.
     </h3>
-    <p>
+    <p id="confirmNotice" class="confirm-notice">
       After registering please check your email for a confirmation message.<br /><br />
-      Already a registered user? <a href="#">Click here</a>
+      Already a registered user? <a href="#" id="loginLink" class="login-link">Click here</a>
     </p>
-    <br />
-    <p id="p1"><strong>FEEDBACK-FORM</strong></p>
-    <div>
-      <form action="feedback.html" id="feedbackForm">
-        <label for="question"
+    <br id="regSectionBreak" class="spacer" />
+    </section>
+
+    <section id="feedbackSection" class="form-section feedback-section">
+    <p id="p1" class="feedback-label"><strong id="feedbackLabelStrong" class="label-strong">FEEDBACK-FORM</strong></p>
+    <div id="feedbackWrapper" class="feedback-wrapper">
+      <form action="feedback.html" id="feedbackForm" class="feedback-form">
+        <label for="answer" id="feedbackQuestion" class="feedback-label-text"
           >If you're facing any problem please write to us.We'll solve the issue
           at the earliest.</label
-        ><br />
-        <br />
-        <br />
+        ><br id="feedbackBreak1" class="spacer" />
+        <br id="feedbackBreak2" class="spacer" />
+        <br id="feedbackBreak3" class="spacer" />
         <input
-          class="feedBackForm"
+          class="feedBackForm form-input"
           id="answer"
           name="feedback"
           placeholder="Text"
@@ -224,46 +310,54 @@ VWO.push(['onVariationApplied', function (data) {
           style="height: 100px"
           type="text"
           value=""
-        /><br />
-        <br />
-        <input type="submit" value="Submit" />
+        /><br id="feedbackBreak4" class="spacer" />
+        <br id="feedbackBreak5" class="spacer" />
+        <input type="submit" id="feedbackSubmit" class="btn btn-submit" value="Submit" />
       </form>
     </div>
-    <br />
-    <a href="javascript:void(0)" onclick="location.hash='spa/1.html'"
+    <br id="feedbackSectionBreak" class="spacer" />
+    </section>
+
+    <section id="testControlsSection" class="test-controls-section">
+    <a href="javascript:void(0)" id="changeHashLink" class="hash-link" onclick="location.hash='spa/1.html'"
       >Change hash</a
     >
-    <p></p>
-    <button id="clickonlinkDummy">ClickElement</button>
-    <button id="testelement2">ClickElement2</button>
-    <button id="testelement3">ClickElement3</button>
-    <button id="testelement4">ClickElement4</button>
-	<button id="errorclickid" class="errorclickclass" type="button" onclick="triggerAllErrors()">Click me to trigger multiple errors</button>
+    <p id="hashSpacer" class="empty-paragraph"></p>
+    <button id="clickonlinkDummy" class="btn btn-test" type="button">ClickElement</button>
+    <button id="testelement2" class="btn btn-test" type="button">ClickElement2</button>
+    <button id="testelement3" class="btn btn-test" type="button">ClickElement3</button>
+    <button id="testelement4" class="btn btn-test" type="button">ClickElement4</button>
+	<button id="errorclickid" class="errorclickclass btn btn-error" type="button" onclick="triggerAllErrors()">Click me to trigger multiple errors</button>
+    </section>
 
-    <p>
-      <br />
-      <br />
-      <a href="suggestions.html" id="suggestions">Suggestions</a><br />
-      <br />
-      <br />
-      <br />
-      <a href="contact_us.html" id="contact_us">Contact us</a><br />
-      <br />
-      <br />
-      <br />
-      <a href="about.html" id="about">About</a>
+    <nav id="siteNav" class="site-nav">
+    <p id="navLinks" class="nav-links">
+      <br id="navBreak1" class="spacer" />
+      <br id="navBreak2" class="spacer" />
+      <a href="suggestions.html" id="suggestions" class="nav-link">Suggestions</a><br id="navBreak3" class="spacer" />
+      <br id="navBreak4" class="spacer" />
+      <br id="navBreak5" class="spacer" />
+      <br id="navBreak6" class="spacer" />
+      <a href="contact_us.html" id="contact_us" class="nav-link">Contact us</a><br id="navBreak7" class="spacer" />
+      <br id="navBreak8" class="spacer" />
+      <br id="navBreak9" class="spacer" />
+      <br id="navBreak10" class="spacer" />
+      <a href="about.html" id="about" class="nav-link">About</a>
 
-      <br />
-      <br />
-      <br />
+      <br id="navBreak11" class="spacer" />
+      <br id="navBreak12" class="spacer" />
+      <br id="navBreak13" class="spacer" />
     </p>
+    </nav>
 
-    <div style="height: 30px"></div>
-    <a id="dynamicLink"></a>
-    <p>
-      <button onclick="myFunction()">Generate Link</button>
-      <input id="input" />
-      <script>
+    <div id="navSpacer" class="section-spacer" style="height: 30px"></div>
+
+    <section id="dynamicLinkSection" class="dynamic-link-section">
+    <a id="dynamicLink" class="dynamic-link"></a>
+    <p id="generateLinkBlock" class="generate-link-block">
+      <button id="generateLinkBtn" class="btn btn-generate" type="button" onclick="myFunction()">Generate Link</button>
+      <input id="input" class="form-input link-input" />
+      <script id="generateLinkScript" class="inline-script">
         function myFunction() {
           document.getElementById("dynamicLink").innerHTML = "GENERATED LINK";
           document.getElementById("dynamicLink").href =
@@ -272,7 +366,51 @@ VWO.push(['onVariationApplied', function (data) {
         }
       </script>
     </p>
-	<script>
+    </section>
+
+    <div id="embeddedFeaturesWrapper" class="embedded-features-wrapper">
+      <section id="shadowDomSection" class="shadow-section embedded-feature-section">
+        <h2 id="shadowDomSectionTitle" class="embedded-feature-title">Shadow DOM Registration Form</h2>
+        <p id="shadowDomSectionDesc" class="embedded-feature-desc">
+          This section lives in the main document (outside any iframe). The host below uses an open Shadow DOM
+          with nested form elements, including a deeper nested Shadow DOM inside it.
+        </p>
+        <div id="shadowDomHost" class="shadow-host" data-shadow-level="0"></div>
+      </section>
+
+      <section id="iframeSection" class="iframe-section nested-iframe-section embedded-feature-section">
+        <h2 id="iframeSectionTitle" class="embedded-feature-title">Nested Registration Form (Iframe)</h2>
+        <p id="iframeSectionDesc" class="embedded-feature-desc">
+          The iframe below loads the same page DOM as a nested form. Inside that frame, another iframe nests one level deeper.
+        </p>
+        <div id="outerIframeWrapper" class="iframe-wrapper outer-iframe-wrapper">
+          <iframe
+            id="outerIframe"
+            class="iframe-frame nested-iframe"
+            name="outerIframe"
+            title="Nested registration form iframe"
+            loading="lazy"
+            src="about:blank"
+          ></iframe>
+        </div>
+        <div id="innerIframeSection" class="iframe-inner-section nested-iframe-inner" hidden>
+          <h3 id="innerIframeTitle" class="iframe-section-title">Deep Nested Form (Inner Iframe)</h3>
+          <div id="innerIframeWrapper" class="iframe-wrapper inner-iframe-wrapper">
+            <iframe
+              id="innerIframe"
+              class="iframe-frame iframe-nested-frame nested-iframe-deep"
+              name="innerIframe"
+              title="Deep nested registration form iframe"
+              loading="lazy"
+              src="about:blank"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+	<script id="errorTriggerScript" class="inline-script">
         function triggerAllErrors() {
             // 1. Simulate a network error
             fetch('https://nonexistent-url.com')
@@ -331,7 +469,7 @@ VWO.push(['onVariationApplied', function (data) {
             }
         }
 	</script>
-	<script>
+	<script id="spaHistoryScript" class="inline-script">
         let spaCount = 1;
 
         function historyPushUrl() {
@@ -342,6 +480,362 @@ VWO.push(['onVariationApplied', function (data) {
         }
 
         //setTimeout(historyPushUrl, 1000);
+    </script>
+	<script id="nestedIframeScript" class="inline-script">
+        (function () {
+          const MAX_NEST = 2;
+          const params = new URLSearchParams(window.location.search);
+          const nestLevel = parseInt(params.get('nest') || '0', 10);
+
+          document.body.classList.add('embed-level-' + nestLevel);
+          document.body.setAttribute('data-nest-level', String(nestLevel));
+
+          const pageTitle = document.getElementById('pageTitle');
+          const shadowDomSection = document.getElementById('shadowDomSection');
+          const embeddedFeaturesWrapper = document.getElementById('embeddedFeaturesWrapper');
+          const iframeSection = document.getElementById('iframeSection');
+          const iframeSectionTitle = document.getElementById('iframeSectionTitle');
+          const outerIframe = document.getElementById('outerIframe');
+          const innerIframeSection = document.getElementById('innerIframeSection');
+          const innerIframe = document.getElementById('innerIframe');
+
+          function buildNestedUrl(nextNest) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('nest', String(nextNest));
+            return url.toString();
+          }
+
+          if (pageTitle) {
+            if (nestLevel === 0) {
+              pageTitle.textContent = 'Registration Form';
+            } else if (nestLevel === 1) {
+              pageTitle.textContent = 'Nested Registration Form (Iframe Level 1)';
+            } else {
+              pageTitle.textContent = 'Deep Nested Registration Form (Iframe Level 2)';
+            }
+          }
+
+          // Stop deeper nesting past MAX_NEST to avoid infinite iframe recursion.
+          if (nestLevel >= MAX_NEST) {
+            if (embeddedFeaturesWrapper) {
+              embeddedFeaturesWrapper.hidden = true;
+            } else {
+              if (shadowDomSection) {
+                shadowDomSection.hidden = true;
+              }
+              if (iframeSection) {
+                iframeSection.hidden = true;
+              }
+            }
+            return;
+          }
+
+          if (nestLevel >= 1) {
+            if (shadowDomSection) {
+              shadowDomSection.hidden = true;
+            }
+          }
+
+          if (iframeSectionTitle) {
+            iframeSectionTitle.textContent =
+              nestLevel === 0
+                ? 'Nested Registration Form (Iframe)'
+                : 'Deep Nested Registration Form (Inner Iframe)';
+          }
+
+          if (outerIframe) {
+            outerIframe.src = buildNestedUrl(nestLevel + 1);
+            outerIframe.setAttribute('data-nest-src', String(nestLevel + 1));
+          }
+
+          // On the main page only, also show a second nested iframe directly
+          // so both outer and deep nested frames are present in the DOM tree.
+          if (nestLevel === 0 && innerIframeSection && innerIframe) {
+            innerIframeSection.hidden = false;
+            innerIframe.src = buildNestedUrl(2);
+            innerIframe.setAttribute('data-nest-src', '2');
+          }
+        })();
+    </script>
+	<script id="shadowDomInitScript" class="inline-script">
+        (function () {
+          const params = new URLSearchParams(window.location.search);
+          const nestLevel = parseInt(params.get('nest') || '0', 10);
+
+          if (nestLevel !== 0) {
+            return;
+          }
+
+          const shadowHost = document.getElementById('shadowDomHost');
+          if (!shadowHost || !shadowHost.attachShadow) {
+            return;
+          }
+
+          function getShadowStyles(level) {
+            const accent = level === 0 ? '#2f6fed' : '#0f766e';
+            const bg = level === 0 ? '#f8fbff' : '#f0fdfa';
+
+            return `
+              :host {
+                display: block;
+                font-family: Arial, sans-serif;
+                color: #111;
+              }
+              .shadow-root {
+                border: 2px solid ${accent};
+                border-radius: 10px;
+                background: ${bg};
+                padding: 20px;
+              }
+              .shadow-header {
+                text-align: center;
+                margin-bottom: 16px;
+              }
+              .shadow-title {
+                margin: 0 0 8px;
+                font-size: 1.35rem;
+              }
+              .shadow-subtitle {
+                margin: 0;
+                color: #555;
+                font-size: 0.95rem;
+              }
+              .shadow-section-block {
+                margin-bottom: 18px;
+                padding: 14px;
+                border: 1px solid #cbd5e1;
+                border-radius: 8px;
+                background: #fff;
+              }
+              .shadow-section-heading {
+                margin: 0 0 10px;
+                font-size: 1.05rem;
+              }
+              .shadow-form-table {
+                width: 100%;
+                border-collapse: collapse;
+              }
+              .shadow-form-row td {
+                padding: 6px 8px;
+                vertical-align: top;
+              }
+              .shadow-form-label {
+                width: 35%;
+                font-weight: 600;
+              }
+              .shadow-form-input,
+              .shadow-form-select,
+              .shadow-form-textarea {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 6px 8px;
+                border: 1px solid #94a3b8;
+                border-radius: 4px;
+              }
+              .shadow-btn {
+                padding: 8px 14px;
+                border: none;
+                border-radius: 6px;
+                background: ${accent};
+                color: #fff;
+                cursor: pointer;
+                margin-right: 8px;
+              }
+              .shadow-link {
+                color: ${accent};
+                text-decoration: none;
+              }
+              .shadow-nested-host {
+                display: block;
+                margin-top: 12px;
+                min-height: 120px;
+              }
+              .shadow-note {
+                margin: 8px 0 0;
+                font-size: 0.9rem;
+                color: #666;
+              }
+            `;
+          }
+
+          function buildRegistrationFormMarkup(prefix, action) {
+            return `
+              <form id="${prefix}RegistrationForm" class="shadow-registration-form" action="${action}">
+                <table id="${prefix}RegistrationTable" class="shadow-form-table">
+                  <tr id="${prefix}NameRow" class="shadow-form-row">
+                    <td id="${prefix}NameLabel" class="shadow-form-label">Name:</td>
+                    <td id="${prefix}NameField" class="shadow-form-field">
+                      <input type="text" id="${prefix}NameInput" class="shadow-form-input" name="name" placeholder="Name" />
+                    </td>
+                  </tr>
+                  <tr id="${prefix}PhoneRow" class="shadow-form-row">
+                    <td id="${prefix}PhoneLabel" class="shadow-form-label">Phone Number:</td>
+                    <td id="${prefix}PhoneField" class="shadow-form-field">
+                      <input type="tel" id="${prefix}PhoneInput" class="shadow-form-input" name="phone" placeholder="9867******" />
+                    </td>
+                  </tr>
+                  <tr id="${prefix}EmailRow" class="shadow-form-row">
+                    <td id="${prefix}EmailLabel" class="shadow-form-label">Email Id:</td>
+                    <td id="${prefix}EmailField" class="shadow-form-field">
+                      <input type="email" id="${prefix}EmailInput" class="shadow-form-input" name="email" placeholder="example1@*8" />
+                    </td>
+                  </tr>
+                  <tr id="${prefix}PasswordRow" class="shadow-form-row">
+                    <td id="${prefix}PasswordLabel" class="shadow-form-label">Password:</td>
+                    <td id="${prefix}PasswordField" class="shadow-form-field">
+                      <input type="password" id="${prefix}PasswordInput" class="shadow-form-input" name="password" placeholder="Password" />
+                    </td>
+                  </tr>
+                  <tr id="${prefix}GenderRow" class="shadow-form-row">
+                    <td id="${prefix}GenderLabel" class="shadow-form-label">Gender:</td>
+                    <td id="${prefix}GenderField" class="shadow-form-field">
+                      <input type="radio" id="${prefix}GenderMale" class="shadow-form-radio" name="${prefix}Gender" value="male" />
+                      <label id="${prefix}GenderMaleLabel" for="${prefix}GenderMale">Male</label>
+                      <input type="radio" id="${prefix}GenderFemale" class="shadow-form-radio" name="${prefix}Gender" value="female" />
+                      <label id="${prefix}GenderFemaleLabel" for="${prefix}GenderFemale">Female</label>
+                    </td>
+                  </tr>
+                  <tr id="${prefix}DobRow" class="shadow-form-row">
+                    <td id="${prefix}DobLabel" class="shadow-form-label">Date of Birth:</td>
+                    <td id="${prefix}DobField" class="shadow-form-field">
+                      <input type="date" id="${prefix}DobInput" class="shadow-form-input" name="dob" />
+                    </td>
+                  </tr>
+                  <tr id="${prefix}HobbiesRow" class="shadow-form-row">
+                    <td id="${prefix}HobbiesLabel" class="shadow-form-label">Hobbies:</td>
+                    <td id="${prefix}HobbiesField" class="shadow-form-field">
+                      <input type="checkbox" id="${prefix}HobbySinging" class="shadow-form-checkbox" name="hobbies" value="singing" />
+                      <label id="${prefix}HobbySingingLabel" for="${prefix}HobbySinging">Singing</label>
+                      <input type="checkbox" id="${prefix}HobbyDancing" class="shadow-form-checkbox" name="hobbies" value="dancing" />
+                      <label id="${prefix}HobbyDancingLabel" for="${prefix}HobbyDancing">Dancing</label>
+                      <input type="checkbox" id="${prefix}HobbySports" class="shadow-form-checkbox" name="hobbies" value="playing" />
+                      <label id="${prefix}HobbySportsLabel" for="${prefix}HobbySports">Sports</label>
+                    </td>
+                  </tr>
+                  <tr id="${prefix}EducationRow" class="shadow-form-row">
+                    <td id="${prefix}EducationLabel" class="shadow-form-label">Education Qualification:</td>
+                    <td id="${prefix}EducationField" class="shadow-form-field">
+                      <select id="${prefix}EducationSelect" class="shadow-form-select" name="education">
+                        <option id="${prefix}EducationDefault" value="">Select Option</option>
+                        <option id="${prefix}Education12" value="10+2">10+2</option>
+                        <option id="${prefix}EducationGrad" value="graduation">Graduation</option>
+                        <option id="${prefix}EducationPostGrad" value="postgraduation">Postgraduation</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr id="${prefix}AddressRow" class="shadow-form-row">
+                    <td id="${prefix}AddressLabel" class="shadow-form-label">Address:</td>
+                    <td id="${prefix}AddressField" class="shadow-form-field">
+                      <textarea id="${prefix}AddressInput" class="shadow-form-textarea" rows="4" placeholder="Address" name="address"></textarea>
+                    </td>
+                  </tr>
+                  <tr id="${prefix}ActionsRow" class="shadow-form-row">
+                    <td id="${prefix}ActionsCell" class="shadow-form-actions" colspan="2">
+                      <input type="submit" id="${prefix}SubmitBtn" class="shadow-btn shadow-btn-submit" value="Submit" />
+                      <input type="reset" id="${prefix}ResetBtn" class="shadow-btn shadow-btn-reset" value="Reset" />
+                    </td>
+                  </tr>
+                </table>
+              </form>
+            `;
+          }
+
+          function buildFeedbackFormMarkup(prefix, action) {
+            return `
+              <form id="${prefix}FeedbackForm" class="shadow-feedback-form" action="${action}">
+                <label id="${prefix}FeedbackLabel" class="shadow-feedback-label" for="${prefix}FeedbackInput">
+                  If you're facing any problem please write to us. We'll solve the issue at the earliest.
+                </label>
+                <br />
+                <input
+                  type="text"
+                  id="${prefix}FeedbackInput"
+                  class="shadow-form-input shadow-feedback-input"
+                  name="feedback"
+                  placeholder="Text"
+                />
+                <br /><br />
+                <input type="submit" id="${prefix}FeedbackSubmit" class="shadow-btn shadow-btn-submit" value="Submit" />
+              </form>
+            `;
+          }
+
+          function mountShadowLevel(hostElement, level) {
+            const prefix = level === 0 ? 'shadowOuter' : 'shadowInner';
+            const shadowRoot = hostElement.attachShadow({ mode: 'open' });
+            shadowRoot.innerHTML = `
+              <style>${getShadowStyles(level)}</style>
+              <div id="${prefix}Root" class="shadow-root" data-shadow-level="${level}">
+                <header id="${prefix}Header" class="shadow-header">
+                  <h3 id="${prefix}Title" class="shadow-title">
+                    ${level === 0 ? 'Outer Shadow DOM Form' : 'Nested Inner Shadow DOM Form'}
+                  </h3>
+                  <p id="${prefix}Subtitle" class="shadow-subtitle">
+                    ${level === 0
+                      ? 'Open shadow root attached to the main page host element.'
+                      : 'Nested shadow root attached inside the outer shadow tree.'}
+                  </p>
+                </header>
+
+                <section id="${prefix}IntroSection" class="shadow-section-block shadow-intro-section">
+                  <p id="${prefix}IntroText" class="shadow-intro-text">Hello, Let's Check it inside Shadow DOM!</p>
+                  <button id="${prefix}IntroButton" class="shadow-btn shadow-btn-primary" type="button">Click me</button>
+                  <a id="${prefix}IntroLink" class="shadow-link" href="https://www.google.com/">Visit Google.Com</a>
+                </section>
+
+                <section id="${prefix}WelcomeSection" class="shadow-section-block shadow-welcome-section">
+                  <h4 id="${prefix}WelcomeHeading" class="shadow-section-heading">Welcome to the Shadow DOM website...</h4>
+                  <p id="${prefix}WelcomeText" class="shadow-welcome-text">
+                    Fill in the details carefully and correctly.
+                    <strong id="${prefix}WelcomeNote">NOTE:-</strong> Password must be at least 8 characters long.
+                  </p>
+                </section>
+
+                <section id="${prefix}RegistrationSection" class="shadow-section-block shadow-registration-section">
+                  <h4 id="${prefix}RegistrationHeading" class="shadow-section-heading">Registration Form</h4>
+                  ${buildRegistrationFormMarkup(prefix, 'contact_us1.html')}
+                  <p id="${prefix}TermsNotice" class="shadow-note">
+                    By clicking submit, you agree to our terms of service and privacy policy.
+                  </p>
+                </section>
+
+                <section id="${prefix}FeedbackSection" class="shadow-section-block shadow-feedback-section">
+                  <h4 id="${prefix}FeedbackHeading" class="shadow-section-heading">FEEDBACK-FORM</h4>
+                  ${buildFeedbackFormMarkup(prefix, 'feedback.html')}
+                </section>
+
+                <section id="${prefix}ControlsSection" class="shadow-section-block shadow-controls-section">
+                  <button id="${prefix}TestButton1" class="shadow-btn shadow-btn-test" type="button">ClickElement</button>
+                  <button id="${prefix}TestButton2" class="shadow-btn shadow-btn-test" type="button">ClickElement2</button>
+                  <a id="${prefix}SuggestionsLink" class="shadow-link" href="suggestions.html">Suggestions</a>
+                  <a id="${prefix}ContactLink" class="shadow-link" href="contact_us.html">Contact us</a>
+                  <a id="${prefix}AboutLink" class="shadow-link" href="about.html">About</a>
+                </section>
+
+                ${level === 0 ? `
+                  <section id="${prefix}NestedShadowSection" class="shadow-section-block shadow-nested-section">
+                    <h4 id="${prefix}NestedShadowHeading" class="shadow-section-heading">Deep Nested Shadow DOM</h4>
+                    <p id="${prefix}NestedShadowDesc" class="shadow-note">
+                      The host below creates a second shadow root nested inside this outer shadow tree.
+                    </p>
+                    <div id="${prefix}NestedShadowHost" class="shadow-nested-host" data-shadow-level="1"></div>
+                  </section>
+                ` : ''}
+              </div>
+            `;
+
+            if (level === 0) {
+              const nestedHost = shadowRoot.getElementById('shadowOuterNestedShadowHost');
+              if (nestedHost) {
+                mountShadowLevel(nestedHost, 1);
+              }
+            }
+
+            return shadowRoot;
+          }
+
+          mountShadowLevel(shadowHost, 0);
+        })();
     </script>
 
   </body>
